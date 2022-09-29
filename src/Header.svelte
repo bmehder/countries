@@ -3,7 +3,7 @@
 </script>
 
 <header>
-  <h1>Countries by Population</h1>
+  <h1>Country Pop</h1>
   <input bind:value autocomplete="off" placeholder="Search for a country..." on:input />
   {#if value}
     <a href on:click|preventDefault={() => (value = '')}>clear search</a>
