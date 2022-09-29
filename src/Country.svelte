@@ -20,7 +20,8 @@
     return fetch(`https://restcountries.com/v3/alpha/${border}`)
       .then(res => res.json())
       .then(data => (borders = [...borders, data[0].name.common]))
-      .finally(() => array.length - 1 === index && (isDone = true))
+      .catch(err => console.error(err))
+      .finally(() => array.length - 1 === index && setTimeout(() => (isDone = true), 400))
   })
 </script>
 
@@ -43,7 +44,9 @@
     <p>
       <strong>Bordering:</strong>
       {#if borders.length && isDone}
-        {borders.join(', ')}
+        {borders?.join(', ')}
+      {:else if borders?.length === 0 && isDone}
+        <p>No bodering countries</p>
       {:else}
         <Spinner />
       {/if}
