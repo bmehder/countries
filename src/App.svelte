@@ -33,7 +33,7 @@
   }
 </script>
 
-<Header bind:value on:input={() => (country = null)} />
+<Header bind:value {country} on:input={() => (country = null)} />
 <main>
   {#if country}
     <Country {country} on:click={() => (country = null)} />

@@ -1,11 +1,11 @@
 <script>
-  export let value
+  export let value, country
 </script>
 
 <header>
   <h1>Country Pop</h1>
   <input bind:value autocomplete="off" placeholder="Search for a country..." on:input />
-  {#if value}
+  {#if value && !country}
     <a href on:click|preventDefault={() => (value = '')}>clear search</a>
   {/if}
 </header>

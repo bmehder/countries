@@ -1,4 +1,5 @@
 <script>
+  import Spinner from './Spinner.svelte'
   export let country
 
   const map = country.maps.googleMaps
@@ -14,10 +15,12 @@
   let borders = []
   const isLandlocked = country.landlocked
 
-  country.borders?.map(border => {
+  let isDone = false
+  country.borders?.map((border, index, array) => {
     return fetch(`https://restcountries.com/v3/alpha/${border}`)
       .then(res => res.json())
       .then(data => (borders = [...borders, data[0].name.common]))
+      .finally(() => array.length - 1 === index && (isDone = true))
   })
 </script>
 
@@ -36,10 +39,15 @@
     <p><strong>Area:</strong> {area} km<sup>2</sup></p>
     <p><strong>Population:</strong> {population}</p>
     <p><strong>TLD:</strong> {tld}</p>
-    {#if borders.length}
-      <p><strong>Bordering:</strong> {borders.join(', ')}</p>
-    {/if}
     <p><strong>Landlocked:</strong> {isLandlocked}</p>
+    <p>
+      <strong>Bordering:</strong>
+      {#if borders.length && isDone}
+        {borders.join(', ')}
+      {:else}
+        <Spinner />
+      {/if}
+    </p>
   </div>
 </main>
 
@@ -56,6 +64,7 @@
     box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.24);
   }
   div {
+    width: 100%;
     text-align: left;
     line-height: 2rem;
   }
@@ -63,6 +72,6 @@
     display: block;
     width: 200px;
     height: auto;
-    box-shadow: 0 0 1px #999;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.24);
   }
 </style>
