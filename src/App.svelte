@@ -59,7 +59,7 @@
 
 <style>
   main {
-    max-width: 800px;
+    max-width: 740px;
     margin: auto;
     padding: 1rem;
   }
