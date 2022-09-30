@@ -37,7 +37,7 @@
   <h4><em>({name})</em></h4>
   <div>
     <p><strong>Alternate Names:</strong> {altSpellings}</p>
-    <p><strong>Capital:</strong> {capital}</p>
+    <p><strong>Capital:</strong> {capital.join(', ')}</p>
     <p><strong>Region:</strong> {region} ({subregion})</p>
     <p><strong>Area:</strong> {area} km<sup>2</sup></p>
     <p><strong>Population:</strong> {population}</p>
@@ -47,7 +47,7 @@
       <strong>Bordering:</strong>
       {#if borders.length > 0 && isDone}
         {borders?.join(', ')}
-      {:else if borders.length > -1 && !isDone}
+      {:else if borders.length > 0 && !isDone}
         <Spinner />
       {:else}
         <p>No bordering countries</p>
