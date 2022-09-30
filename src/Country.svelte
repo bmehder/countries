@@ -17,7 +17,11 @@
   const isLandlocked = country.landlocked
 
   let isDone = false
+
+  if (!country.borders) isDone = true
+
   country.borders?.map((border, index, array) => {
+    isDone = false
     return fetch(`https://restcountries.com/v3/alpha/${border}`)
       .then(res => res.json())
       .then(data => (borders = [...borders, data[0].name.common]))
@@ -45,12 +49,12 @@
     <p><strong>Landlocked:</strong> {isLandlocked}</p>
     <p>
       <strong>Bordering:</strong>
-      {#if borders.length > 0 && isDone}
+      {#if borders.length === 0 && isDone}
+        <p>No bordering countries</p>
+      {:else if borders.length > 0 && isDone}
         {borders?.join(', ')}
       {:else if borders.length > 0 && !isDone}
         <Spinner />
-      {:else}
-        <p>No bordering countries</p>
       {/if}
     </p>
   </div>
