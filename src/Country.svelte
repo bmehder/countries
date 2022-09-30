@@ -39,24 +39,29 @@
   </h2>
   <h3>{official}</h3>
   <h4><em>({name})</em></h4>
+  <p><strong>{tld}</strong></p>
+
   <div>
-    <p><strong>Alternate Names:</strong> {altSpellings}</p>
+    <p><strong>Alternate Names:</strong></p>
+    <p>{altSpellings}</p>
     <p><strong>Capital:</strong> {capital.join(', ')}</p>
     <p><strong>Region:</strong> {region} ({subregion})</p>
     <p><strong>Area:</strong> {area} km<sup>2</sup></p>
     <p><strong>Population:</strong> {population}</p>
-    <p><strong>TLD:</strong> {tld}</p>
     <p><strong>Landlocked:</strong> {isLandlocked}</p>
-    <p>
-      <strong>Bordering:</strong>
+    <details>
+      <summary>Bordering Countries</summary>
       {#if borders.length === 0 && isDone}
-        <p>No bordering countries</p>
+        <p>None</p>
       {:else if borders.length > 0 && isDone}
-        {borders?.join(', ')}
+        {#each borders as border}
+          <li>{border}</li>
+        {/each}
+        <!-- {borders?.join(', ')} -->
       {:else if borders.length > 0 && !isDone}
         <Spinner />
       {/if}
-    </p>
+    </details>
   </div>
 </main>
 
@@ -72,6 +77,12 @@
     text-align: center;
     box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.24);
   }
+  a {
+    text-decoration: underline;
+  }
+  a:hover {
+    text-decoration: none;
+  }
   div {
     width: 100%;
     text-align: left;
@@ -82,5 +93,29 @@
     width: 200px;
     height: auto;
     box-shadow: 0 0 4px rgba(0, 0, 0, 0.24);
+  }
+  details {
+    cursor: pointer;
+  }
+  summary {
+    font-weight: bold;
+    margin: -0.5em -0.5em;
+    padding: 0.5em;
+  }
+  details li {
+    display: block;
+    font-family: unset;
+    list-style: disc;
+    padding: 0;
+  }
+  sup {
+    font-size: 75%;
+    line-height: 0;
+    position: relative;
+    vertical-align: baseline;
+  }
+
+  sup {
+    top: -0.5em;
   }
 </style>
