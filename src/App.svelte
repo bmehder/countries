@@ -21,7 +21,7 @@
   import Country from './Country.svelte'
 
   let value = ''
-  let country = ''
+  let country = null
 
   $: getData = async url => {
     if (allResults && !value) return allResults
@@ -37,7 +37,9 @@
 <main>
   {#if country}
     <Country {country} on:click={() => (country = null)} />
-  {:else}
+  {/if}
+
+  {#if !country}
     {#await getData(URL)}
       <Spinner />
     {:then data}

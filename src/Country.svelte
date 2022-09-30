@@ -18,7 +18,7 @@
 
   let isDone = false
 
-  if (!country.borders) isDone = true
+  !country.borders && (isDone = true)
 
   country.borders?.map((border, index, array) => {
     isDone = false
