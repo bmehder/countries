@@ -47,7 +47,7 @@
       <strong>Bordering:</strong>
       {#if borders.length > 0 && isDone}
         {borders?.join(', ')}
-      {:else if borders.length > 0 && !isDone}
+      {:else if borders.length > -1 && !isDone}
         <Spinner />
       {:else}
         <p>No bordering countries</p>
