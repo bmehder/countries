@@ -5,6 +5,7 @@
   const map = country.maps.googleMaps
   const flag = country.flags.svg
   const name = country.name.common
+  const altSpellings = country.altSpellings?.join(', ')
   const official = country.name.official
   const capital = country.capital
   const region = country.region
@@ -35,6 +36,7 @@
   <h3>{official}</h3>
   <h4><em>({name})</em></h4>
   <div>
+    <p><strong>Alternate Names:</strong> {altSpellings}</p>
     <p><strong>Capital:</strong> {capital}</p>
     <p><strong>Region:</strong> {region} ({subregion})</p>
     <p><strong>Area:</strong> {area} km<sup>2</sup></p>
@@ -43,12 +45,12 @@
     <p><strong>Landlocked:</strong> {isLandlocked}</p>
     <p>
       <strong>Bordering:</strong>
-      {#if borders.length && isDone}
+      {#if borders.length > 0 && isDone}
         {borders?.join(', ')}
-      {:else if borders?.length === 0 && isDone}
-        <p>No bodering countries</p>
-      {:else}
+      {:else if borders.length > 0 && !isDone}
         <Spinner />
+      {:else}
+        <p>No bordering countries</p>
       {/if}
     </p>
   </div>
