@@ -31,7 +31,11 @@
       .then(data => (data.status !== 404 ? data : []))
       .catch(err => console.error('Yo', err))
   }
+
+  const handleKeydown = evt => evt.key === 'Escape' && (country = null)
 </script>
+
+<svelte:body on:keydown={handleKeydown} />
 
 <Header bind:value {country} on:input={() => (country = null)} />
 <main>
