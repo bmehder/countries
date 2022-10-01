@@ -37,7 +37,7 @@
 </svelte:head>
 
 <main>
-  <span on:click|preventDefault><i class="fa fa-times-circle" /> </span>
+  <span on:click|preventDefault><i class="fa fa-times-circle" /></span>
   <h2>
     <a href={map} target="_blank">
       <img src={flag} alt={name} />
