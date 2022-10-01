@@ -1,5 +1,4 @@
 <script>
-  import Spinner from './Spinner.svelte'
   export let country
 
   const map = country.maps.googleMaps
@@ -13,9 +12,9 @@
   const area = country.area.toLocaleString('en-US')
   const population = country.population.toLocaleString('en-US')
   const tld = country.tld?.join(', ')
-  let borders = []
   const isLandlocked = country.landlocked
 
+  let borders = []
   let isDone = false
 
   !country.borders && (isDone = true)
@@ -30,8 +29,15 @@
   })
 </script>
 
+<svelte:head>
+  <link
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css"
+    rel="stylesheet"
+  />
+</svelte:head>
+
 <main>
-  <a href on:click|preventDefault>Go Back</a>
+  <span on:click|preventDefault><i class="fa fa-times-circle" /> </span>
   <h2>
     <a href={map} target="_blank">
       <img src={flag} alt={name} />
@@ -53,13 +59,10 @@
       <summary>Bordering Countries</summary>
       {#if borders.length === 0 && isDone}
         <p>None</p>
-      {:else if borders.length > 0 && isDone}
+      {:else}
         {#each borders as border}
           <li>{border}</li>
         {/each}
-        <!-- {borders?.join(', ')} -->
-      {:else if borders.length > 0 && !isDone}
-        <Spinner />
       {/if}
     </details>
   </div>
@@ -67,6 +70,7 @@
 
 <style>
   main {
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -82,6 +86,20 @@
   }
   a:hover {
     text-decoration: none;
+  }
+  span {
+    position: absolute;
+    top: -1.5rem;
+    right: -1.5rem;
+    cursor: pointer;
+  }
+  span i {
+    font-size: 3rem;
+    transition: transform 100ms ease-in-out;
+  }
+  span i:hover {
+    color: tomato;
+    transform: scale(0.95);
   }
   div {
     width: 100%;
