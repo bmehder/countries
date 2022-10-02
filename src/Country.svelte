@@ -1,4 +1,6 @@
 <script type="ts">
+  import { clickOutside } from './utils'
+
   import Spinner from './Spinner.svelte'
 
   export let country
@@ -50,8 +52,8 @@
 
 <svelte:body on:keydown={handleKeydown} />
 
-<main>
-  <span on:click|preventDefault><i class="fa fa-times-circle" /></span>
+<main use:clickOutside={() => (country = null)}>
+  <span on:click|preventDefault={() => (country = null)}><i class="fa fa-times-circle" /></span>
   <h2>
     <a href={map} target="_blank">
       <img src={flag} alt={name} />
