@@ -1,31 +1,25 @@
 <script lang="ts">
   export let value: string
-  export let country: {}
+  export let isCountrySelected: boolean
 
-  let inputElement
-
-  const handleKeydown = evt => {
-    evt.key === 'Enter' && !value && inputElement.focus()
-    evt.key === 'Escape' && !country && (value = '')
-  }
+  const handleKeydown = evt => evt.key === 'Escape' && !isCountrySelected && (value = '')
 </script>
+
+<svelte:body on:keydown={handleKeydown} />
 
 <header>
   <h1>Country Pop</h1>
   <input
-    bind:this={inputElement}
     bind:value
     autocomplete="off"
     placeholder="Type country name..."
-    disabled={!!country}
+    disabled={isCountrySelected}
     on:input
   />
-  {#if value && !country}
+  {#if value && !isCountrySelected}
     <span on:click|preventDefault={() => (value = '')}>clear search</span>
   {/if}
 </header>
-
-<svelte:body on:keydown={handleKeydown} />
 
 <style>
   header {

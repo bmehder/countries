@@ -1,9 +1,7 @@
-export function clickOutside(element, callbackFunction) {
-  function handleClick(event) {
-    !element.contains(event.target) && callbackFunction()
-  }
+export const clickOutside = (element, callbackFunction) => {
+  const handleClick = evt => !element.contains(evt.target) && callbackFunction()
 
-  setTimeout(() => document.body.addEventListener('click', handleClick), 10)
+  document.body.addEventListener('click', handleClick, { capture: true })
 
   return {
     update(newCallbackFunction) {

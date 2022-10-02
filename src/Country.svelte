@@ -23,7 +23,7 @@
   const fetchBorders = () =>
     country.borders?.map(border => fetch(`https://restcountries.com/v3/alpha/${border}`))
 
-  const borders = () => {
+  const getBorders = () => {
     if (!country.borders) return
 
     return Promise.all(fetchBorders())
@@ -38,9 +38,7 @@
       .catch(err => console.error('Yo', err))
   }
 
-  const handleKeydown = evt => {
-    evt.key === 'Enter' && (isBordersOpen = !isBordersOpen)
-  }
+  const handleKeydown = evt => evt.key === 'Enter' && (isBordersOpen = !isBordersOpen)
 </script>
 
 <svelte:head>
@@ -73,9 +71,7 @@
     <p><strong>Landlocked:</strong> {isLandlocked}</p>
     <details open={isBordersOpen}>
       <summary>Bordering Countries</summary>
-      {#await borders()}
-        <Spinner />
-      {:then items}
+      {#await getBorders() then items}
         <ul>
           {#each items || [] as item}
             <li>{item.name.common}</li>

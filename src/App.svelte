@@ -23,6 +23,8 @@
   let value: string = ''
   let country: {} | null = null
 
+  $: isCountrySelected = !!country
+
   $: getData = async (url: string) => {
     if (allResults && !value) return allResults
 
@@ -42,20 +44,20 @@
 
 <svelte:body on:keydown={handleKeydown} />
 
-<Header bind:value {country} on:input={() => (country = null)} />
+<Header bind:value {isCountrySelected} on:input={() => (country = null)} />
 
 <main>
-  {#if country}
+  {#if isCountrySelected}
     <Country bind:country />
   {/if}
 
-  {#if !country}
+  {#if !isCountrySelected}
     {#await getData(URL)}
       <Spinner />
     {:then data}
       <Population {total} />
       <Headings />
-      {@const sortedData = (data && [...data].sort((a, b) => b.population - a.population)) || []}
+      {@const sortedData = data && [...data].sort((a, b) => b.population - a.population)}
       <ul>
         {#each sortedData as item, index}
           <Row {index} {item} {total} on:click={() => (country = item)} />
