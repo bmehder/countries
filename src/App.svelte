@@ -43,6 +43,7 @@
 <svelte:body on:keydown={handleKeydown} />
 
 <Header bind:value {country} on:input={() => (country = null)} />
+
 <main>
   {#if country}
     <Country bind:country />

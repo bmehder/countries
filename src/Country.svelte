@@ -1,5 +1,5 @@
 <script type="ts">
-  import { clickOutside } from './utils'
+  import { clickOutside } from './actions'
 
   import Spinner from './Spinner.svelte'
 
