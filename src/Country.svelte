@@ -1,4 +1,6 @@
-<script>
+<script type="ts">
+  import Spinner from './Spinner.svelte'
+
   export let country
 
   const map = country.maps.googleMaps
@@ -14,19 +16,30 @@
   const tld = country.tld?.join(', ')
   const isLandlocked = country.landlocked
 
-  let borders = []
-  let isDone = false
+  let isBordersOpen
 
-  !country.borders && (isDone = true)
+  const fetchBorders = () =>
+    country.borders?.map(border => fetch(`https://restcountries.com/v3/alpha/${border}`))
 
-  country.borders?.map((border, index, array) => {
-    isDone = false
-    return fetch(`https://restcountries.com/v3/alpha/${border}`)
-      .then(res => res.json())
-      .then(data => (borders = [...borders, data[0].name.common]))
-      .catch(err => console.error(err))
-      .finally(() => array.length - 1 === index && setTimeout(() => (isDone = true), 400))
-  })
+  const borders = () => {
+    if (!country.borders) return
+
+    return Promise.all(fetchBorders())
+      .then(responses => {
+        return Promise.all(
+          responses.map(response => {
+            return response.json()
+          })
+        )
+      })
+      .then(data => data.flat())
+      .catch(err => console.error('Yo', err))
+  }
+
+  const handleKeydown = evt => {
+    evt.key === 'ArrowDown' && (isBordersOpen = true)
+    evt.key === 'ArrowUp' && (isBordersOpen = false)
+  }
 </script>
 
 <svelte:head>
@@ -35,6 +48,8 @@
     rel="stylesheet"
   />
 </svelte:head>
+
+<svelte:body on:keydown|preventDefault={handleKeydown} />
 
 <main>
   <span on:click|preventDefault><i class="fa fa-times-circle" /></span>
@@ -55,15 +70,19 @@
     <p><strong>Area:</strong> {area} km<sup>2</sup></p>
     <p><strong>Population:</strong> {population}</p>
     <p><strong>Landlocked:</strong> {isLandlocked}</p>
-    <details>
+    <details open={isBordersOpen}>
       <summary>Bordering Countries</summary>
-      {#if borders.length === 0 && isDone}
-        <p>None</p>
-      {:else}
-        {#each borders as border}
-          <li>{border}</li>
-        {/each}
-      {/if}
+      {#await borders()}
+        <Spinner />
+      {:then items}
+        <ul>
+          {#each items || [] as item}
+            <li>{item.name.common}</li>
+          {:else}
+            <li>None</li>
+          {/each}
+        </ul>
+      {/await}
     </details>
   </div>
 </main>
@@ -89,12 +108,12 @@
   }
   span {
     position: absolute;
-    top: -1.5rem;
-    right: -1.5rem;
+    top: -1rem;
+    right: -1rem;
     cursor: pointer;
   }
   span i {
-    font-size: 3rem;
+    font-size: 2rem;
     transition: transform 100ms ease-in-out;
   }
   span i:hover {

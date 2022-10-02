@@ -1,7 +1,7 @@
-<script context="module">
+<script context="module" lang="ts">
   const URL = 'https://restcountries.com/v3.1'
 
-  let total
+  let total: number = 0
 
   const allResults = fetch(URL + '/all')
     .then(response => response.json())
@@ -9,10 +9,10 @@
       total = data.reduce((acc, item) => (acc += item.population), 0)
       return data.status !== 404 ? data : []
     })
-    .catch(err => console.error(err))
+    .catch(err => console.error('yo', err))
 </script>
 
-<script>
+<script lang="ts">
   import Header from './Header.svelte'
   import Spinner from './Spinner.svelte'
   import Population from './Population.svelte'
@@ -20,10 +20,10 @@
   import Row from './Row.svelte'
   import Country from './Country.svelte'
 
-  let value = ''
-  let country = null
+  let value: string = ''
+  let country: {} | null = null
 
-  $: getData = async url => {
+  $: getData = async (url: string) => {
     if (allResults && !value) return allResults
 
     return fetch(`${url}/name/${value}`)
@@ -32,7 +32,7 @@
       .catch(err => console.error('Yo', err))
   }
 
-  const handleKeydown = evt => evt.key === 'Escape' && (country = null)
+  const handleKeydown = (evt: KeyboardEvent): void => evt.key === 'Escape' && (country = null)
 </script>
 
 <svelte:body on:keydown={handleKeydown} />
@@ -49,7 +49,7 @@
     {:then data}
       <Population {total} />
       <Headings />
-      {@const sortedData = [...data].sort((a, b) => b.population - a.population)}
+      {@const sortedData = (data && [...data].sort((a, b) => b.population - a.population)) || []}
       <ul>
         {#each sortedData as item, index}
           <Row {index} {item} {total} on:click={() => (country = item)} />

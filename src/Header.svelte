@@ -1,12 +1,13 @@
-<script>
-  export let value, country
+<script lang="ts">
+  export let value: string
+  export let country: {}
 </script>
 
 <header>
   <h1>Country Pop</h1>
-  <input bind:value autocomplete="off" placeholder="Search for a country..." on:input />
+  <input bind:value autocomplete="off" placeholder="Type country name..." on:input />
   {#if value && !country}
-    <a href on:click|preventDefault={() => (value = '')}>clear search</a>
+    <span on:click|preventDefault={() => (value = '')}>clear search</span>
   {/if}
 </header>
 
@@ -26,11 +27,11 @@
   input {
     display: block;
   }
-  a {
+  span {
     color: white;
     text-decoration: underline;
   }
-  a:hover {
+  span:hover {
     text-decoration: none;
   }
 </style>
