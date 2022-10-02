@@ -57,7 +57,7 @@
     {:then data}
       <Population {total} />
       <Headings />
-      {@const sortedData = data && [...data].sort((a, b) => b.population - a.population)}
+      {@const sortedData = (data && [...data].sort((a, b) => b.population - a.population)) || []}
       <ul>
         {#each sortedData as item, index}
           <Row {index} {item} {total} on:click={() => (country = item)} />

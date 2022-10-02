@@ -1,8 +1,6 @@
 <script type="ts">
   import { clickOutside } from './actions'
 
-  import Spinner from './Spinner.svelte'
-
   export let country
 
   const map = country.maps.googleMaps
@@ -17,14 +15,16 @@
   const population = country.population.toLocaleString('en-US')
   const tld = country.tld?.join(', ')
   const isLandlocked = country.landlocked
+  const BORDER_URL = 'https://restcountries.com/v3/alpha/'
 
-  let isBordersOpen
+  let isBordersOpen = false
 
-  const fetchBorders = () =>
-    country.borders?.map(border => fetch(`https://restcountries.com/v3/alpha/${border}`))
+  const borders = country.borders
+
+  const fetchBorders = () => borders?.map(border => fetch(BORDER_URL + border))
 
   const getBorders = () => {
-    if (!country.borders) return
+    if (!borders) return
 
     return Promise.all(fetchBorders())
       .then(responses => {
@@ -51,7 +51,9 @@
 <svelte:body on:keydown={handleKeydown} />
 
 <main use:clickOutside={() => (country = null)}>
-  <span on:click|preventDefault={() => (country = null)}><i class="fa fa-times-circle" /></span>
+  <span on:click|preventDefault={() => (country = null)}>
+    <i class="fa fa-times-circle" />
+  </span>
   <h2>
     <a href={map} target="_blank">
       <img src={flag} alt={name} />
@@ -71,10 +73,10 @@
     <p><strong>Landlocked:</strong> {isLandlocked}</p>
     <details open={isBordersOpen}>
       <summary>Bordering Countries</summary>
-      {#await getBorders() then items}
+      {#await getBorders() then borders}
         <ul>
-          {#each items || [] as item}
-            <li>{item.name.common}</li>
+          {#each borders || [] as border}
+            <li>{border.name.common}</li>
           {:else}
             <li>None</li>
           {/each}
