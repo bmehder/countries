@@ -37,8 +37,7 @@
   }
 
   const handleKeydown = evt => {
-    evt.key === 'ArrowDown' && (isBordersOpen = true)
-    evt.key === 'ArrowUp' && (isBordersOpen = false)
+    evt.key === 'Enter' && (isBordersOpen = !isBordersOpen)
   }
 </script>
 
@@ -49,7 +48,7 @@
   />
 </svelte:head>
 
-<svelte:body on:keydown|preventDefault={handleKeydown} />
+<svelte:body on:keydown={handleKeydown} />
 
 <main>
   <span on:click|preventDefault><i class="fa fa-times-circle" /></span>

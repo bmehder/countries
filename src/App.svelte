@@ -27,7 +27,12 @@
     if (allResults && !value) return allResults
 
     return fetch(`${url}/name/${value}`)
-      .then(response => response.json())
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(response.statusText)
+        }
+        return response.json()
+      })
       .then(data => (data.status !== 404 ? data : []))
       .catch(err => console.error('Yo', err))
   }
@@ -57,8 +62,6 @@
           <li>No results</li>
         {/each}
       </ul>
-    {:catch error}
-      <p>{error}</p>
     {/await}
   {/if}
 </main>
