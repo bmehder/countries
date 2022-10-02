@@ -72,24 +72,4 @@
     margin: auto;
     padding: 1rem;
   }
-  :global(li) {
-    display: grid;
-    grid-template-columns: minmax(2em, 1fr) 1fr 1fr 1fr;
-    gap: 1rem;
-    padding: 0.25rem;
-    font-family: monospace;
-  }
-  @media screen and (max-width: 600px) {
-    :global(li) {
-      grid-template-columns: minmax(2em, auto) 1fr 1fr 1fr;
-    }
-  }
-  :global(*) {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-  }
-  :global(body) {
-    padding: 0;
-  }
 </style>

@@ -46,6 +46,7 @@
   span {
     color: white;
     text-decoration: underline;
+    cursor: pointer;
   }
   span:hover {
     text-decoration: none;
