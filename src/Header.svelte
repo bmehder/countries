@@ -1,8 +1,9 @@
 <script lang="ts">
-  export let value: string
+  import { value } from './stores'
+
   export let isCountrySelected: boolean
 
-  const handleKeydown = evt => evt.key === 'Escape' && !isCountrySelected && (value = '')
+  const handleKeydown = evt => evt.key === 'Escape' && !isCountrySelected && ($value = '')
 </script>
 
 <svelte:body on:keydown={handleKeydown} />
@@ -10,14 +11,14 @@
 <header>
   <h1>Country Pop</h1>
   <input
-    bind:value
+    bind:value={$value}
     autocomplete="off"
     placeholder="Type country name..."
     disabled={isCountrySelected}
     on:input
   />
-  {#if value && !isCountrySelected}
-    <span on:click|preventDefault={() => (value = '')}>clear search</span>
+  {#if !isCountrySelected}
+    <span on:click|preventDefault={() => ($value = '')}>clear search</span>
   {/if}
 </header>
 

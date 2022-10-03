@@ -13,6 +13,8 @@
 </script>
 
 <script lang="ts">
+  import { value } from './stores'
+
   import Header from './Header.svelte'
   import Spinner from './Spinner.svelte'
   import Population from './Population.svelte'
@@ -20,15 +22,14 @@
   import Row from './Row.svelte'
   import Country from './Country.svelte'
 
-  let value: string = ''
   let country: {} | null = null
 
   $: isCountrySelected = !!country
 
   $: getData = async (url: string) => {
-    if (allResults && !value) return allResults
+    if (allResults && !$value) return allResults
 
-    return fetch(`${url}/name/${value}`)
+    return fetch(`${url}/name/${$value}`)
       .then(response => {
         if (!response.ok) {
           throw new Error(response.statusText)
@@ -44,7 +45,7 @@
 
 <svelte:body on:keydown={handleKeydown} />
 
-<Header bind:value {isCountrySelected} on:input={() => (country = null)} />
+<Header {isCountrySelected} on:input={() => (country = null)} />
 
 <main>
   {#if isCountrySelected}
