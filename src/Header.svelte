@@ -17,7 +17,7 @@
     disabled={isCountrySelected}
     on:input
   />
-  {#if !isCountrySelected}
+  {#if $value && !isCountrySelected}
     <span on:click|preventDefault={() => ($value = '')}>clear search</span>
   {/if}
 </header>

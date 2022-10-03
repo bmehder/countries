@@ -50,7 +50,7 @@
 
 <svelte:body on:keydown={handleKeydown} />
 
-<main use:clickOutside={() => (country = null)}>
+<aside use:clickOutside={() => (country = null)}>
   <span on:click|preventDefault={() => (country = null)}>
     <i class="fa fa-times-circle" />
   </span>
@@ -84,10 +84,10 @@
       {/await}
     </details>
   </div>
-</main>
+</aside>
 
 <style>
-  main {
+  aside {
     position: relative;
     display: flex;
     flex-direction: column;
@@ -98,12 +98,6 @@
     padding: 2rem;
     text-align: center;
     box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.24);
-  }
-  a {
-    text-decoration: underline;
-  }
-  a:hover {
-    text-decoration: none;
   }
   span {
     position: absolute;
@@ -145,13 +139,10 @@
     padding: 0;
   }
   sup {
+    position: relative;
+    top: -0.5em;
+    vertical-align: baseline;
     font-size: 75%;
     line-height: 0;
-    position: relative;
-    vertical-align: baseline;
-  }
-
-  sup {
-    top: -0.5em;
   }
 </style>
