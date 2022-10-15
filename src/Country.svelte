@@ -27,18 +27,15 @@
     if (!borders) return
 
     return Promise.all(fetchBorders())
-      .then(responses => {
-        return Promise.all(
-          responses.map(response => {
-            return response.json()
-          })
-        )
-      })
+      .then(responses => Promise.all(responses.map(response => response.json())))
       .then(data => data.flat())
       .catch(err => console.error('Yo', err))
   }
 
-  const handleKeydown = evt => evt.key === 'Enter' && (isBordersOpen = !isBordersOpen)
+  const handleKeydown = evt =>
+    evt.key === 'Enter' && (isBordersOpen = !isBordersOpen)
+
+  const showAll = () => (country = null)
 </script>
 
 <svelte:head>
@@ -50,8 +47,8 @@
 
 <svelte:body on:keydown={handleKeydown} />
 
-<aside use:clickOutside={() => (country = null)}>
-  <span on:click|preventDefault={() => (country = null)}>
+<aside use:clickOutside={showAll}>
+  <span on:click|preventDefault={showAll}>
     <i class="fa fa-times-circle" />
   </span>
   <h2>
@@ -92,7 +89,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.75rem;
     max-width: 400px;
     margin: 1rem auto;
     padding: 2rem;
@@ -120,9 +117,12 @@
   }
   img {
     display: block;
-    width: 200px;
+    width: 100%;
     height: auto;
     box-shadow: 0 0 4px rgba(0, 0, 0, 0.24);
+  }
+  h2 {
+    margin-block: 1rem;
   }
   details {
     cursor: pointer;

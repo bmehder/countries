@@ -13,7 +13,9 @@
 </script>
 
 <script lang="ts">
+  import { scale } from 'svelte/transition'
   import { value } from './stores'
+  import { throttle } from './utils'
 
   import Header from './Header.svelte'
   import Spinner from './Spinner.svelte'
@@ -40,7 +42,8 @@
       .catch(err => console.error('Yo', err))
   }
 
-  const handleKeydown = (evt: KeyboardEvent): void => evt.key === 'Escape' && (country = null)
+  const handleKeydown = (evt: KeyboardEvent): void =>
+    evt.key === 'Escape' && (country = null)
 </script>
 
 <svelte:body on:keydown={handleKeydown} />
@@ -49,24 +52,29 @@
 
 <main>
   {#if isCountrySelected}
-    <Country bind:country />
+    <div transition:scale>
+      <Country bind:country />
+    </div>
   {/if}
 
   {#if !isCountrySelected}
-    {#await getData(URL)}
-      <Spinner />
-    {:then data}
-      <Population {total} />
-      <Headings />
-      {@const sortedData = (data && [...data].sort((a, b) => b.population - a.population)) || []}
-      <ul>
-        {#each sortedData as item, index}
-          <Row {index} {item} {total} on:click={() => (country = item)} />
-        {:else}
-          <li>No results</li>
-        {/each}
-      </ul>
-    {/await}
+    <div transition:scale>
+      {#await getData(URL)}
+        <Spinner />
+      {:then data}
+        <Population {total} />
+        <Headings />
+        {@const sortedData =
+          (data && [...data].sort((a, b) => b.population - a.population)) || []}
+        <ul>
+          {#each sortedData as item, index}
+            <Row {index} {item} {total} on:click={() => (country = item)} />
+          {:else}
+            <li>No results</li>
+          {/each}
+        </ul>
+      {/await}
+    </div>
   {/if}
 </main>
 
