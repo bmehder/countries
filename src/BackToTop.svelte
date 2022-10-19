@@ -29,7 +29,7 @@
     bottom: 2rem;
     right: 3rem;
     opacity: 0;
-    transition: opacity 300ms ease-in-out, scale 300ms ease-in-out;
+    transition: opacity 300ms ease-in-out 500ms, scale 300ms ease-in-out;
     cursor: pointer;
   }
   svg.show {

@@ -1,5 +1,6 @@
 <script lang="ts">
   import { value } from './stores'
+
   import BackToTop from './BackToTop.svelte'
 
   export let isCountrySelected: boolean
