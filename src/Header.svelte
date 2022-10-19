@@ -1,9 +1,11 @@
 <script lang="ts">
   import { value } from './stores'
+  import BackToTop from './BackToTop.svelte'
 
   export let isCountrySelected: boolean
 
-  const handleKeydown = evt => evt.key === 'Escape' && !isCountrySelected && ($value = '')
+  const handleKeydown = evt =>
+    evt.key === 'Escape' && !isCountrySelected && ($value = '')
 </script>
 
 <svelte:body on:keydown={handleKeydown} />
@@ -21,6 +23,8 @@
     <span on:click|preventDefault={() => ($value = '')}>clear search</span>
   {/if}
 </header>
+
+<BackToTop {isCountrySelected} />
 
 <style>
   header {

@@ -15,7 +15,6 @@
 <script lang="ts">
   import { scale } from 'svelte/transition'
   import { value } from './stores'
-  import { throttle } from './utils'
 
   import Header from './Header.svelte'
   import Spinner from './Spinner.svelte'
