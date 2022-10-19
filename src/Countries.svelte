@@ -46,7 +46,7 @@
   {/if}
 
   {#if !$isCountrySelected}
-    <div transition:scale>
+    <div in:scale={{ delay: 400 }}>
       {#await getData(URL)}
         <Spinner />
       {:then data}

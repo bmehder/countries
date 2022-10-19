@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { value, isCountrySelected } from './stores'
+  import { value, isCountrySelected, country } from './stores'
 
   const handleKeydown = evt =>
     evt.key === 'Escape' && !$isCountrySelected && ($value = '')
@@ -14,10 +14,10 @@
     autocomplete="off"
     placeholder="Type country name..."
     disabled={$isCountrySelected}
-    on:input
+    on:input={() => ($country = null)}
   />
   {#if $value && !$isCountrySelected}
-    <span on:click|preventDefault={() => ($value = '')}>clear search</span>
+    <span on:click={() => ($value = '')}>clear search</span>
   {/if}
 </header>
 

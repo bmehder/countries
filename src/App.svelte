@@ -16,7 +16,7 @@
 
 <svelte:body on:keydown={handleKeydown} />
 
-<Header on:input={() => ($country = null)} />
+<Header />
 
 <Countries />
 

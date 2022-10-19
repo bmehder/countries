@@ -8,8 +8,8 @@
   const altSpellings = $country.altSpellings?.join(', ')
   const official = $country.name.official
   const capital = $country.capital
-  const region = $country.region
-  const subregion = $country.subregion
+  const region = $country.region ?? ''
+  const subregion = $country.subregion ? `(${$country.subregion})` : ''
   const area = $country.area.toLocaleString('en-US')
   const population = $country.population.toLocaleString('en-US')
   const tld = $country.tld?.join(', ')
@@ -62,8 +62,8 @@
   <div>
     <p><strong>Alternate Names:</strong></p>
     <p>{altSpellings}</p>
-    <p><strong>Capital:</strong> {capital.join(', ')}</p>
-    <p><strong>Region:</strong> {region} ({subregion})</p>
+    <p><strong>Capital:</strong> {capital?.join(', ') ?? ''}</p>
+    <p><strong>Region:</strong> {region} {subregion}</p>
     <p><strong>Area:</strong> {area} km<sup>2</sup></p>
     <p><strong>Population:</strong> {population}</p>
     <p><strong>Landlocked:</strong> {isLandlocked}</p>
