@@ -5,7 +5,7 @@
     margin-block: 1rem;
     text-align: center;
     font-size: 2rem;
-    animation: spin 1s infinite;
+    animation: spin 1s linear infinite;
   }
 
   @keyframes spin {

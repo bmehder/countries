@@ -1,25 +1,24 @@
 <script type="ts">
   import { clickOutside } from './actions'
+  import { country } from './stores'
 
-  export let country
-
-  const map = country.maps.googleMaps
-  const flag = country.flags.svg
-  const name = country.name.common
-  const altSpellings = country.altSpellings?.join(', ')
-  const official = country.name.official
-  const capital = country.capital
-  const region = country.region
-  const subregion = country.subregion
-  const area = country.area.toLocaleString('en-US')
-  const population = country.population.toLocaleString('en-US')
-  const tld = country.tld?.join(', ')
-  const isLandlocked = country.landlocked
+  const map = $country.maps.googleMaps
+  const flag = $country.flags.svg
+  const name = $country.name.common
+  const altSpellings = $country.altSpellings?.join(', ')
+  const official = $country.name.official
+  const capital = $country.capital
+  const region = $country.region
+  const subregion = $country.subregion
+  const area = $country.area.toLocaleString('en-US')
+  const population = $country.population.toLocaleString('en-US')
+  const tld = $country.tld?.join(', ')
+  const isLandlocked = $country.landlocked
   const BORDER_URL = 'https://restcountries.com/v3/alpha/'
 
   let isBordersOpen = false
 
-  const borders = country.borders
+  const borders = $country.borders
 
   const fetchBorders = () => borders?.map(border => fetch(BORDER_URL + border))
 
@@ -35,7 +34,7 @@
   const handleKeydown = evt =>
     evt.key === 'Enter' && (isBordersOpen = !isBordersOpen)
 
-  const showAll = () => (country = null)
+  const showAll = () => ($country = null)
 </script>
 
 <svelte:head>

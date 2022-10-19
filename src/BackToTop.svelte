@@ -1,7 +1,5 @@
 <script>
-  import { isShowBackToTop } from './stores'
-
-  export let isCountrySelected
+  import { isShowBackToTop, isCountrySelected } from './stores'
 
   const handleClick = () => scrollTo({ top: 0, behavior: 'smooth' })
 </script>
@@ -11,7 +9,7 @@
   viewBox="0 0 24 24"
   fill="currentColor"
   class="w-6 h-6"
-  class:show={$isShowBackToTop && !isCountrySelected}
+  class:show={$isShowBackToTop && !$isCountrySelected}
   on:click={handleClick}
 >
   <path
