@@ -36,7 +36,17 @@
       .then(data => (data.status !== 404 ? data : []))
       .catch(err => console.error('Yo', err))
   }
+
+  const isEscapeKey = key => key === 'Escape'
+  const showAllCountries = () => ($country = null)
+
+  const handleKeydown = (evt: KeyboardEvent): void =>
+    isEscapeKey(evt.key) && showAllCountries()
+
+  $: $isCountrySelected = !!$country
 </script>
+
+<svelte:body on:keydown={handleKeydown} />
 
 <main>
   {#if $isCountrySelected}
