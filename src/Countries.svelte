@@ -40,6 +40,8 @@
 
   const handleKeydown = (evt: KeyboardEvent): void =>
     evt.key === 'Escape' && showAllCountries()
+
+  const handleClick = item => ($country = item)
 </script>
 
 <svelte:body on:keydown={handleKeydown} />
@@ -61,7 +63,7 @@
             <span>Percent</span>
           </li>
           {#each sortedData as item, index}
-            <Row {index} {item} {total} on:click={() => ($country = item)} />
+            <Row {index} {item} {total} on:click={() => handleClick(item)} />
           {:else}
             <li>No results</li>
           {/each}

@@ -2,14 +2,15 @@
   export let index, item
   export let total = 0
 
-  const name = item.name.common
-  const population = item.population.toLocaleString('en-US')
-  const popPercent = ((item.population * 100) / total).toFixed(2)
+  const rank = index + 1
   const flag = item.flags.svg
+  const name = item.name.common
+  const population = item.population.toLocaleString('en-GB')
+  const popPercent = ((item.population * 100) / total).toFixed(2)
 </script>
 
 <li>
-  <span>{index + 1}</span>
+  <span>{rank}</span>
   <span>
     <a href on:click|preventDefault>
       <img src={flag} alt="{name} flag" />

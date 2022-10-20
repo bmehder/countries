@@ -2,6 +2,8 @@
   import { isShowBackToTop, isCountrySelected } from './stores'
 
   const handleClick = () => scrollTo({ top: 0, behavior: 'smooth' })
+
+  $: show = $isShowBackToTop && !$isCountrySelected
 </script>
 
 <svg
@@ -9,7 +11,7 @@
   viewBox="0 0 24 24"
   fill="currentColor"
   class="w-6 h-6"
-  class:show={$isShowBackToTop && !$isCountrySelected}
+  class:show
   on:click={handleClick}
 >
   <path

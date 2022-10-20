@@ -30,9 +30,9 @@
 
     const parseResponsesToJSON = responses => responses.map(res => res.json())
 
-    const sortByName = (a, b) => (a.name.common > b.name.common ? 1 : -1)
+    const sortByProp = (a, b) => (a.name.common > b.name.common ? 1 : -1)
 
-    const sortCountries = countries => [...countries.flat()].sort(sortByName)
+    const sortCountries = countries => [...countries].flat().sort(sortByProp)
 
     return Promise.all(fetchCountries(borders, url))
       .then(responses => Promise.all(parseResponsesToJSON(responses)))

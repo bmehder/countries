@@ -3,6 +3,13 @@
 
   const handleKeydown = evt =>
     evt.key === 'Escape' && !$isCountrySelected && ($value = '')
+
+  const handleInput = () => ($country = null)
+
+  const handleClick = () => ($value = '')
+
+  $: isShowClearInput = $value && !$isCountrySelected
+  $: disabled = $isCountrySelected
 </script>
 
 <svelte:body on:keydown={handleKeydown} />
@@ -13,11 +20,11 @@
     bind:value={$value}
     autocomplete="off"
     placeholder="Type country name..."
-    disabled={$isCountrySelected}
-    on:input={() => ($country = null)}
+    {disabled}
+    on:input={handleInput}
   />
-  {#if $value && !$isCountrySelected}
-    <span on:click={() => ($value = '')}>clear search</span>
+  {#if isShowClearInput}
+    <span on:click={handleClick}>clear search</span>
   {/if}
 </header>
 
