@@ -32,11 +32,11 @@
 
     const sortByName = (a, b) => (a.name.common > b.name.common ? 1 : -1)
 
-    const sortBorders = data => [...data.flat()].sort(sortByName)
+    const sortCountries = countries => [...countries.flat()].sort(sortByName)
 
     return Promise.all(fetchCountries(borders, url))
       .then(responses => Promise.all(parseResponsesToJSON(responses)))
-      .then(data => sortBorders(data))
+      .then(countries => sortCountries(countries))
       .catch(err => console.error('Yo', err))
   }
 
