@@ -1,3 +1,4 @@
+// Click Outside
 export const clickOutside = (element, callbackFunction) => {
   const handleClick = evt => !element.contains(evt.target) && callbackFunction()
 
@@ -13,9 +14,10 @@ export const clickOutside = (element, callbackFunction) => {
   }
 }
 
+// Viewport
 let intersectionObserver
 
-function ensureIntersectionObserver() {
+const ensureIntersectionObserver = () => {
   if (intersectionObserver) return
 
   intersectionObserver = new IntersectionObserver(entries => {

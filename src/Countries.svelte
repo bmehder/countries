@@ -19,7 +19,6 @@
 
   import Spinner from './Spinner.svelte'
   import Population from './Population.svelte'
-  import Headings from './Headings.svelte'
   import Row from './Row.svelte'
   import Country from './Country.svelte'
 
@@ -37,34 +36,30 @@
       .catch(err => console.error('Yo', err))
   }
 
-  const isEscapeKey = key => key === 'Escape'
   const showAllCountries = () => ($country = null)
 
   const handleKeydown = (evt: KeyboardEvent): void =>
-    isEscapeKey(evt.key) && showAllCountries()
-
-  $: $isCountrySelected = !!$country
+    evt.key === 'Escape' && showAllCountries()
 </script>
 
 <svelte:body on:keydown={handleKeydown} />
 
 <main>
-  {#if $isCountrySelected}
-    <div transition:scale>
-      <Country />
-    </div>
-  {/if}
-
   {#if !$isCountrySelected}
     <div>
       {#await getData(URL)}
         <Spinner />
       {:then data}
-        <Population {total} />
-        <Headings />
         {@const sortedData =
           (data && [...data].sort((a, b) => b.population - a.population)) || []}
+        <Population {total} />
         <ul>
+          <li>
+            <span>Rank</span>
+            <span>Country</span>
+            <span>Population</span>
+            <span>Percent</span>
+          </li>
           {#each sortedData as item, index}
             <Row {index} {item} {total} on:click={() => ($country = item)} />
           {:else}
@@ -72,6 +67,10 @@
           {/each}
         </ul>
       {/await}
+    </div>
+  {:else}
+    <div transition:scale>
+      <Country />
     </div>
   {/if}
 </main>
@@ -81,5 +80,8 @@
     max-width: 740px;
     margin: auto;
     padding: 1rem;
+  }
+  span {
+    font-weight: bold;
   }
 </style>

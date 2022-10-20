@@ -14,27 +14,33 @@
   const population = $country.population.toLocaleString('en-US')
   const tld = $country.tld?.join(', ')
   const isLandlocked = $country.landlocked
+  const borders = $country.borders
   const BORDER_URL = 'https://restcountries.com/v3/alpha/'
 
   let isBordersOpen = false
 
-  const borders = $country.borders
+  const showAll = () => ($country = null)
 
-  const fetchBorders = () => borders?.map(border => fetch(BORDER_URL + border))
-
-  const getBorders = () => {
+  const getCountries = (borders: string[], url: string) => {
     if (!borders) return
 
-    return Promise.all(fetchBorders())
-      .then(responses => Promise.all(responses.map(response => response.json())))
-      .then(data => data.flat())
+    const fetchCountry = url => border => fetch(url + border)
+
+    const fetchCountries = (borders, url) => borders?.map(fetchCountry(url))
+
+    const parseResponsesToJSON = responses => responses.map(res => res.json())
+
+    const sortByName = (a, b) => (a.name.common > b.name.common ? 1 : -1)
+
+    const sortBorders = data => [...data.flat()].sort(sortByName)
+
+    return Promise.all(fetchCountries(borders, url))
+      .then(responses => Promise.all(parseResponsesToJSON(responses)))
+      .then(data => sortBorders(data))
       .catch(err => console.error('Yo', err))
   }
 
-  const handleKeydown = evt =>
-    evt.key === 'Enter' && (isBordersOpen = !isBordersOpen)
-
-  const showAll = () => ($country = null)
+  const handleKeydown = e => e.key === 'Enter' && (isBordersOpen = !isBordersOpen)
 </script>
 
 <svelte:head>
@@ -69,10 +75,11 @@
     <p><strong>Landlocked:</strong> {isLandlocked}</p>
     <details open={isBordersOpen}>
       <summary>Bordering Countries</summary>
-      {#await getBorders() then borders}
+      {#await getCountries(borders, BORDER_URL) then countries}
         <ul>
-          {#each borders || [] as border}
-            <li>{border.name.common}</li>
+          {#each countries || [] as country}
+            {@const name = country.name.common}
+            <li>{name}</li>
           {:else}
             <li>None</li>
           {/each}
@@ -123,13 +130,11 @@
   h2 {
     margin-block: 1rem;
   }
-  details {
-    cursor: pointer;
-  }
   summary {
-    font-weight: bold;
     margin: -0.5em -0.5em;
     padding: 0.5em;
+    font-weight: bold;
+    cursor: pointer;
   }
   details li {
     display: block;
